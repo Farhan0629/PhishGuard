@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: phishguard
+    env: python
+    buildCommand: ""
+    startCommand: python app.py
