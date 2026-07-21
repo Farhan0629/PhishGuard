@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PHISHGUARD // v0.1 — URL THREAT ANALYZER</title>
+  <meta name="description" content="Heuristic phishing URL analyzer. SOC-style threat console." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- CRT scanlines + grain layer -->
+  <div class="crt" aria-hidden="true"></div>
+
+  <main class="terminal" role="main">
+    <!-- ASCII frame: built as a single string so it lines up exactly -->
+    <pre class="frame" aria-hidden="true">┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘</pre>
+
+    <!-- Title block -->
+    <section class="title">
+      <div class="title-line title-line-1">
+        <span class="prompt">root@soc-01:~$</span>
+        <span class="cmd" id="cmd-typed">./phishguard --analyze</span><span class="cursor" aria-hidden="true">▌</span>
+      </div>
+      <h1 class="title-glitch" data-text="PHISHGUARD">PHISHGUARD</h1>
+      <p class="subtitle">
+        <span class="bracket">[</span> HEURISTIC URL THREAT ANALYZER <span class="bracket">]</span>
+        <span class="dim">// 480+ brands &middot; 40+ TLDs &middot; stdlib only</span>
+      </p>
+    </section>
+
+    <!-- Input -->
+    <form id="check-form" class="console-input" autocomplete="off">
+      <label for="url-input" class="prompt-label">
+        <span class="prompt-arrow">&gt;</span>
+        <span class="prompt-text">target.url</span>
+      </label>
+      <div class="input-row">
+        <span class="caret-prefix" aria-hidden="true">&#62;&#62;</span>
+        <input
+          id="url-input"
+          name="url"
+          type="text"
+          placeholder="https://example.com/login"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          required
+        />
+        <button type="submit" id="check-btn">
+          <span class="btn-bracket">[</span>RUN<span class="btn-bracket">]</span>
+        </button>
+      </div>
+
+      <div class="examples">
+        <span class="ex-label">samples::</span>
+        <button type="button" class="ex" data-url="https://rnicrosoft.com/account/verify">rnicrosoft.com</button>
+        <button type="button" class="ex" data-url="https://netf1ix.com">netf1ix.com</button>
+        <button type="button" class="ex" data-url="https://amaz0n-security-update.com">amaz0n-security-update.com</button>
+        <button type="button" class="ex" data-url="http://192.168.1">192.168.1</button>
+        <button type="button" class="ex" data-url="http://servehttp.com">servehttp.com</button>
+        <button type="button" class="ex" data-url="https://paypal.com/signin">paypal.com/signin</button>
+        <button type="button" class="ex" data-url="http://sbi-kyc-update.in/login">sbi-kyc-update.in</button>
+        <button type="button" class="ex" data-url="http://irctc-refund.tk/">irctc-refund.tk</button>
+      </div>
+    </form>
+
+    <!-- Result panel -->
+    <section id="result" class="result hidden" aria-live="polite">
+      <div class="result-head">
+        <div class="indicator-led" id="led-wrap">
+          <span class="led" id="led"></span>
+          <span class="indicator-label" id="indicator">—</span>
+          <span class="indicator-tier" id="tier">[ UNKNOWN ]</span>
+        </div>
+        <div class="score-block">
+          <div class="score">
+            <span class="score-key">SCORE</span>
+            <span class="score-num" id="score">--</span><span class="score-of">/100</span>
+          </div>
+          <div class="bar-ascii" id="bar-ascii" aria-hidden="true">[░░░░░░░░░░░░░░░░░░░░░░░░░░]</div>
+        </div>
+      </div>
+
+      <div class="reason-wrap">
+        <span class="reason-prefix">analysis &gt;</span>
+        <p class="reason" id="reason">awaiting target&hellip;</p>
+      </div>
+
+      <div class="meta-wrap">
+        <span class="meta-key">flags</span>
+        <span class="meta-sep">::</span>
+        <div class="meta" id="meta">
+          <span class="flag flag-empty">no_flags</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer disclaimer -->
+    <footer class="disclaimer dim">heuristic only &mdash; not a substitute for a real security product</footer>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
